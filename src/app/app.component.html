@@ -1,0 +1,72 @@
+<div class="col-md-6 formulario">
+  <div class="card">
+    <div class="card-header">
+      <h2>Cadastro de Categoria</h2>
+      <div class="container">
+        <div class="form-group">
+          <label for="inputNome">Nome da Categoria</label>
+          <input type="text" class="form-control" id="inputNome">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 formulario">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{title}}</h2>
+      <div class="container">
+        <div class="form-group">
+          <label for="inputNome">Nome</label>
+          <input type="text" class="form-control" id="inputNome" [(ngModel)]="selectedProduto.nome">
+        </div>
+        <div class="form-group">
+          <label for="inputSalário">Categoria</label>
+          <input type="text" class="form-control" id="inputSalário" [(ngModel)]="selectedProduto.categoria"
+            placeholder="0,00">
+        </div>
+        <div class="form-group">
+          <label for="inputIdade">Preço</label>
+          <input type="number" class="form-control" id="inputIdade" [(ngModel)]="selectedProduto.preco">
+        </div>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Salário</th>
+        <th scope="col">Idade</th>
+        <th scope="col">Avatar</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of employees">
+        <th scope="row">{{e.id}}</th>
+        <td>{{e.employee_name}}</td>
+        <td>{{e.employee_salary}}</td>
+        <td>{{e.employee_age}}</td>
+        <td>{{e.profile_image}}</td>
+        <td><button type="button" class="btn btn-primary" (click)="onClickEditar(e.id)">Editar</button>
+          <button type="button" class="btn btn-danger" (click)="openModal(template, e.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Deseja mesmo deletar esse empregado?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
