@@ -23,8 +23,8 @@
             <input type="text" class="form-control" id="inputNome" [(ngModel)]="selectedProduto.nome">
           </div>
           <div class="form-group">
-            <label for="formaCadastro">Forma de Cadastro</label>
-            <select type="text" class="form-control" id="formaCadastro" name="formaCadastro"
+            <label for="categoria">Categoria</label>
+            <select type="text" class="form-control" id="categoria" name="categoria"
               [ngModel]="selectedProduto.categoria" (change)="selectedProduto.categoria = $event.target.value" required>
               <option *ngFor="let c of categorias" [value]="c.nome">{{c.nome}}</option>
             </select>

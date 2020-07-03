@@ -45,7 +45,6 @@ export class AppComponent implements OnInit {
   }
 
   public onClickEditar(id: string) {
-    debugger
     this.selectedProduto = this.produtos.find(e => e.id === id);
     this.title = 'Editar Produto';
   }
