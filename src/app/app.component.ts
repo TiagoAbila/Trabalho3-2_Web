@@ -2,17 +2,23 @@ import { Component, TemplateRef, OnInit } from '@angular/core';
 import { Produto } from './model/produto';
 import { HttpClient } from '@angular/common/http';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Observable } from 'rxjs';
+import { Categoria } from './model/categoria';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   public produtos: Produto[] = [];
   public selectedProduto: Produto = new Produto();
   public modalRef: BsModalRef;
   public title = 'Cadastrar Empregado';
+
+  public categoria: Categoria = new Categoria();
+  public categorias: Categoria[];
+
   private idToBeDeleted: number;
 
   constructor(private http: HttpClient,
@@ -20,18 +26,26 @@ export class AppComponent implements OnInit{
   }
 
   public ngOnInit() {
+    this.getAllCategorias();
     this.getAll();
   }
 
   public getAll() {
-    this.http.get('http://rest-api-employees.jmborges.site/api/v1/employees')
+    this.http.get('http://virtserver.swaggerhub.com/Trabalhos/TrabalhoProgWeb3-2/1.0.0/Produto')
       .subscribe(res => {
         this.setProdutos(res);
     });
-
   }
 
-  public onClickEditar(id: number) {
+  public getAllCategorias() {
+    this.http.get('http://virtserver.swaggerhub.com/Trabalhos/TrabalhoProgWeb3-2/1.0.0/Categoria')
+      .subscribe(res => {
+        this.setCategorias(res);
+    });
+  }
+
+  public onClickEditar(id: string) {
+    debugger
     this.selectedProduto = this.produtos.find(e => e.id === id);
     this.title = 'Editar Produto';
   }
@@ -42,7 +56,7 @@ export class AppComponent implements OnInit{
       categoria: this.selectedProduto.categoria,
       preco: this.selectedProduto.preco
     };
-    if (this.selectedProduto.id >= 0) {
+    if (this.selectedProduto.id.length > 0) {
       this.updateProduto(produto, this.selectedProduto.id.toString());
     } else {
       this.saveProduto(produto);
@@ -63,7 +77,11 @@ export class AppComponent implements OnInit{
   }
 
   private setProdutos(array: any) {
-    this.produtos = array.data;
+    this.produtos = array;
+  }
+
+  private setCategorias(array: any) {
+    this.categorias = array;
   }
 
   private saveProduto(produto: Produto) {
@@ -89,5 +107,13 @@ export class AppComponent implements OnInit{
 
   public decline(): void {
     this.modalRef.hide();
+  }
+
+  public saveCategoria() {
+    this.http.post('http://rest-api-employees.jmborges.site/api/v1/create', this.categoria.nome)
+    .subscribe(() => {
+      this.selectedProduto = new Produto();
+      this.getAll();
+    });
   }
 }
